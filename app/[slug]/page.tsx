@@ -1,5 +1,8 @@
 
 import { notFound } from 'next/navigation';
+import NoteArea from '../components/NoteArea';
+import { NextPage } from 'next';
+import { fetchNoteBySlug } from '../lib/actions';
 
 interface SlugPageProps {
     params: {
@@ -7,21 +10,20 @@ interface SlugPageProps {
     };
 }
 
-export default function SlugPage({ params }: SlugPageProps) {
+const Page: NextPage<SlugPageProps> = async ({ params }) => {
     const { slug } = params;
 
-    // Optionally, you can perform any server-side logic based on the slug
-    // For example, you can validate the slug, fetch data, etc.
+    const note = await fetchNoteBySlug(slug);
 
-    // Example of basic slug validation
     if (!slug) {
         notFound();
     }
 
     return (
         <div>
-            <h1>Server-Side Rendered Slug: {slug}</h1>
-            {/* Render any server-fetched data or content based on the slug */}
+            <NoteArea {...{ slug }} defaultContent={note?.content} />
         </div>
     );
 }
+
+export default Page
