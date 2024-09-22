@@ -9,6 +9,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const randomSlug = generateRandomSlug();
+    console.log("randomSlug", randomSlug);
     // Redirect to the generated slug
     router.push(`/${randomSlug}`);
   }, [router]);
