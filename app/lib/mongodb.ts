@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const uri: string | undefined = process.env.MONGODB_URI;
+const uri: string | undefined = process.env.NEXT_PUBLIC_MONGODB_URI;
 
 if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
