@@ -1,19 +1,27 @@
-'use client'
 
-import { useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-export default function SlugPage() {
-    // Access the slug from the URL
-    const params = useParams();
-    const slug = params?.slug;
+interface SlugPageProps {
+    params: {
+        slug: string;
+    };
+}
 
-    // You can now perform actions based on the slug
-    // For example, you could fetch some data or show unique content based on the slug
+export default function SlugPage({ params }: SlugPageProps) {
+    const { slug } = params;
+
+    // Optionally, you can perform any server-side logic based on the slug
+    // For example, you can validate the slug, fetch data, etc.
+
+    // Example of basic slug validation
+    if (!slug) {
+        notFound();
+    }
 
     return (
         <div>
-            <h1>Generated Slug: {slug}</h1>
-            {/* Additional content or actions based on the slug */}
+            <h1>Server-Side Rendered Slug: {slug}</h1>
+            {/* Render any server-fetched data or content based on the slug */}
         </div>
     );
 }
