@@ -1,11 +1,18 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { generateRandomSlug } from './utils/generateSlug';
 
-const HomePage = () => {
+export default function HomePage() {
+  const router = useRouter();
 
-  const randomSlug = generateRandomSlug();
+  useEffect(() => {
+    const randomSlug = generateRandomSlug();
+    // Redirect to the generated slug
+    router.push(`/${randomSlug}`);
+  }, [router]);
 
-  redirect(`/${randomSlug}`);
+  // Optionally, you can return a loading state while the redirect happens
+  return <div>Redirecting...</div>;
 }
-
-export default HomePage;
