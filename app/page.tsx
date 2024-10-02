@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
-import { generateRandomSlug } from "./utils/generateSlug";
+import { generateSlug } from "./lib/helper";
 
 export const dynamic = 'force-dynamic';
 
 const HomePage = async () => {
-  const randomSlug = generateRandomSlug();
+  const randomSlug = generateSlug();
   redirect(randomSlug);
 }
 
