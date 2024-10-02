@@ -1,6 +1,8 @@
 
 import { notFound } from 'next/navigation';
 import { NextPage } from 'next';
+import NoteArea from '../components/NoteArea';
+import { fetchNoteBySlug } from '../lib/actions';
 
 interface SlugPageProps {
     params: {
@@ -15,18 +17,13 @@ const Page: NextPage<SlugPageProps> = async ({ params }) => {
         notFound();
     }
 
+    const note = await fetchNoteBySlug(slug);
+
     return (
         <div>
-            <h1>Server-Side Rendered Slug: {slug}</h1>
-            <p>This page was generated for the slug: {slug}</p>
+            <NoteArea {...{ slug }} defaultContent={note?.content} />
         </div>
     );
-
-    // return (
-    //     <div>
-    //         <NoteArea {...{ slug }} defaultContent={""} />
-    //     </div>
-    // );
 }
 
 export default Page
