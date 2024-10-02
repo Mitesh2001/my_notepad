@@ -1,5 +1,10 @@
 import { Schema, Types, Model, model, models } from "mongoose";
 
+export interface Counts {
+    word: number,
+    char: number
+}
+
 export interface Note {
     _id: Types.ObjectId;
     slug: string;

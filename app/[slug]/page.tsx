@@ -11,6 +11,7 @@ interface SlugPageProps {
 }
 
 const Page: NextPage<SlugPageProps> = async ({ params }) => {
+
     const { slug } = params;
 
     if (!slug) {
@@ -20,7 +21,7 @@ const Page: NextPage<SlugPageProps> = async ({ params }) => {
     const note = await fetchNoteBySlug(slug);
 
     return (
-        <div>
+        <div className="container p-6 bg-white rounded-lg shadow-lg">
             <NoteArea {...{ slug }} defaultContent={note?.content} />
         </div>
     );

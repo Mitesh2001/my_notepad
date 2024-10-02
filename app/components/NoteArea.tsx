@@ -1,30 +1,50 @@
 'use client'
 
-import { FC, ChangeEventHandler } from 'react'
+import { FC, ChangeEventHandler, useState } from 'react'
 import { handleContentChange } from '../lib/actions';
-import { Note } from '../lib/types';
-import { debounce } from '../lib/helper';
+import { Counts, Note } from '../lib/types';
+import { debounce, getCharCount, getWordCount } from '../lib/helper';
 
 const NoteArea: FC<{ slug: string, defaultContent?: Note['content'] }> = ({ slug, defaultContent = "" }) => {
 
+    const [counts, setcounts] = useState<Counts>({ word: getWordCount(defaultContent), char: getCharCount(defaultContent) });
+
     const changeContentHandler: ChangeEventHandler<HTMLTextAreaElement> = async (event) => {
+        setcounts({ word: getWordCount(event.target.value), char: getCharCount(event.target.value) })
         await handleContentChange(slug, event.target.value);
     }
 
     return (
-        <div>
-            <div className="mt-2">
+        <>
+            <div className="flex justify-between items-center border-b pb-4 mb-4">
+                <h1 className="text-2xl font-semibold text-blue-600">My Notepad</h1>
+                {/* <div className="flex space-x-2">
+                    <button className="text-gray-600 hover:text-gray-800">+</button>
+                    <button className="text-gray-600 hover:text-gray-800">✎</button>
+                    <button className="text-gray-600 hover:text-gray-800">👤</button>
+                </div> */}
+            </div>
+
+            <div>
                 <textarea
                     id="comment"
                     name="comment"
-                    rows={4}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={defaultContent} onChange={debounce(changeContentHandler, 200)}
+                    className="w-full h-96 p-4 text-lg border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder='Write your notes here...'
+                    defaultValue={defaultContent}
+                    onChange={debounce(changeContentHandler, 200)}
                 />
             </div>
-        </div>
-    )
 
+            <div className="mt-4 flex justify-between items-center">
+                <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
+                <div className="flex space-x-2">
+                    <button className="text-blue-600" disabled>Editable Link</button>
+                    <button className="text-blue-600" disabled>Share Link</button>
+                </div>
+            </div>
+        </>
+    )
 }
 
-export default NoteArea
+export default NoteArea;

@@ -27,3 +27,15 @@ export const debounce = <T extends (...args: any[]) => void>(func: T, wait: numb
     }
 
 }
+
+export const getCharCount = (content: string) => content.length;
+
+export const getWordCount = (content: string) => {
+
+    const trimmedContent = content.trim();
+
+    const wordsArray = trimmedContent.split(" ").filter(word => word.length > 0);
+
+    return wordsArray.length;
+
+}
