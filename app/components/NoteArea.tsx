@@ -3,9 +3,15 @@
 import { FC, ChangeEventHandler, useState } from 'react'
 import { handleContentChange } from '../lib/actions';
 import { Counts, Note } from '../lib/types';
-import { debounce, getCharCount, getWordCount } from '../lib/helper';
+import { debounce, generateSlug, getCharCount, getWordCount } from '../lib/helper';
+import Link from 'next/link';
 
-const NoteArea: FC<{ slug: string, defaultContent?: Note['content'] }> = ({ slug, defaultContent = "" }) => {
+interface NoteAreaProps {
+    slug: string;
+    defaultContent?: Note['content']
+};
+
+const NoteArea: FC<NoteAreaProps> = ({ slug, defaultContent = "" }) => {
 
     const [counts, setcounts] = useState<Counts>({ word: getWordCount(defaultContent), char: getCharCount(defaultContent) });
 
@@ -16,21 +22,21 @@ const NoteArea: FC<{ slug: string, defaultContent?: Note['content'] }> = ({ slug
 
     return (
         <>
-            <div className="flex justify-between items-center border-b pb-4 mb-4">
-                <h1 className="text-2xl font-semibold text-blue-600">My Notepad</h1>
-                {/* <div className="flex space-x-2">
-                    <button className="text-gray-600 hover:text-gray-800">+</button>
-                    <button className="text-gray-600 hover:text-gray-800">✎</button>
-                    <button className="text-gray-600 hover:text-gray-800">👤</button>
-                </div> */}
+            <div className="flex justify-between items-center pb-4 border-b">
+                <h1 className="text-xl font-semibold text-blue-600">My Notepad </h1>
+                <div className="flex space-x-10">
+                    <Link href={generateSlug()} className='text-gray-600 hover:text-gray-800 text-2xl'>
+                        +
+                    </Link>
+                </div>
             </div>
 
-            <div>
+            <div className="w-full h-96 py-4 rounded-md text-lg bg-white">
                 <textarea
                     id="comment"
                     name="comment"
-                    className="w-full h-96 p-4 text-lg border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder='Write your notes here...'
+                    className="w-full h-full bg-transparent outline-none resize-none"
+                    placeholder=''
                     defaultValue={defaultContent}
                     onChange={debounce(changeContentHandler, 200)}
                 />

@@ -1,8 +1,9 @@
 
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { NextPage } from 'next';
 import NoteArea from '../components/NoteArea';
 import { fetchNoteBySlug } from '../lib/actions';
+import { generateSlug } from '../lib/helper';
 
 interface SlugPageProps {
     params: {
