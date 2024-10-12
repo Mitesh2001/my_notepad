@@ -1,16 +1,15 @@
 'use client'
 
 import { FC, ChangeEventHandler, useState } from 'react'
-import { handleContentChange, addSharedLinkSlug } from '../lib/actions';
+import { handleContentChange } from '../lib/actions';
 import { Counts, Note } from '../lib/types';
-import { debounce, generateSlug, getCharCount, getWordCount } from '../lib/helper';
+import { debounce, getCharCount, getWordCount } from '../lib/helper';
 import Link from 'next/link';
 
 interface NoteAreaProps {
     slug: string;
     newNoteSlug: string;
     defaultContent?: Note['content'];
-    defaultNoteId?: string;
 };
 
 const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" }) => {
@@ -29,19 +28,10 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
         });
     }
 
-    const generateAndCopySharedLink = async () => {
-        const generateSharedSlug = generateSlug();
-        await addSharedLinkSlug(slug, generateSharedSlug);
-        const sharedLink = `${window.location.origin}/share/${generateSharedSlug}`;
-        navigator.clipboard.writeText(sharedLink).then(() => {
-            alert("Shared link copied to clipboard!");
-        });
-    }
-
     return (
         <>
             <div className="flex justify-between items-center pb-4 border-b">
-                <h1 className="text-xl font-semibold text-blue-600">Clip Note</h1>
+                <h1 className="text-xl font-semibold text-blue-600">My Notepad </h1>
                 <div className="flex space-x-10">
                     <Link href={newNoteSlug} className='text-gray-600 hover:text-gray-800 text-2xl'>
                         +
@@ -63,8 +53,8 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
             <div className="mt-4 flex justify-between items-center">
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
-                    <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link </button>
-                    <button className="text-blue-600" onClick={generateAndCopySharedLink}>Share Link</button>
+                    <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link</button>
+                    {/* <button className="text-blue-600" disabled>Share Link</button> */}
                 </div>
             </div>
         </>
