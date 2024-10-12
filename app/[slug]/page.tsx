@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { NextPage } from 'next';
 import NoteArea from '../components/NoteArea';
 import { fetchNoteBySlug } from '../lib/actions';
+import { generateSlug } from '../lib/helper';
 
 interface SlugPageProps {
     params: {
@@ -20,9 +21,11 @@ const Page: NextPage<SlugPageProps> = async ({ params }) => {
 
     const note = await fetchNoteBySlug(slug);
 
+    const newNoteSlug = generateSlug();
+
     return (
         <div className="container p-6 bg-white rounded-lg shadow-lg">
-            <NoteArea {...{ slug }} defaultContent={note?.content} />
+            <NoteArea {...{ slug, newNoteSlug }} defaultContent={note?.content} />
         </div>
     );
 }
