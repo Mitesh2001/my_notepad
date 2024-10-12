@@ -3,15 +3,16 @@
 import { FC, ChangeEventHandler, useState } from 'react'
 import { handleContentChange } from '../lib/actions';
 import { Counts, Note } from '../lib/types';
-import { debounce, generateSlug, getCharCount, getWordCount } from '../lib/helper';
+import { debounce, getCharCount, getWordCount } from '../lib/helper';
 import Link from 'next/link';
 
 interface NoteAreaProps {
     slug: string;
-    defaultContent?: Note['content']
+    newNoteSlug: string;
+    defaultContent?: Note['content'];
 };
 
-const NoteArea: FC<NoteAreaProps> = ({ slug, defaultContent = "" }) => {
+const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" }) => {
 
     const [counts, setcounts] = useState<Counts>({ word: getWordCount(defaultContent), char: getCharCount(defaultContent) });
 
@@ -20,12 +21,19 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, defaultContent = "" }) => {
         await handleContentChange(slug, event.target.value);
     }
 
+    const copyEditableLink = async () => {
+        const editableLink = `${window.location.origin}/${slug}`;
+        navigator.clipboard.writeText(editableLink).then(() => {
+            alert("Editable link copied to clipboard!");
+        });
+    }
+
     return (
         <>
             <div className="flex justify-between items-center pb-4 border-b">
                 <h1 className="text-xl font-semibold text-blue-600">My Notepad </h1>
                 <div className="flex space-x-10">
-                    <Link href={generateSlug()} className='text-gray-600 hover:text-gray-800 text-2xl'>
+                    <Link href={newNoteSlug} className='text-gray-600 hover:text-gray-800 text-2xl'>
                         +
                     </Link>
                 </div>
@@ -45,8 +53,8 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, defaultContent = "" }) => {
             <div className="mt-4 flex justify-between items-center">
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
-                    <button className="text-blue-600" disabled>Editable Link</button>
-                    <button className="text-blue-600" disabled>Share Link</button>
+                    <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link</button>
+                    {/* <button className="text-blue-600" disabled>Share Link</button> */}
                 </div>
             </div>
         </>
