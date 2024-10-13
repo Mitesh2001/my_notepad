@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Counts, Note } from '../lib/types';
 import { getCharCount, getWordCount } from '../lib/helper';
 import { ClipboardIcon } from '@heroicons/react/24/outline'
