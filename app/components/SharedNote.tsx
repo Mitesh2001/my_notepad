@@ -1,9 +1,11 @@
 'use client'
 
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Counts, Note } from '../lib/types';
 import { getCharCount, getWordCount } from '../lib/helper';
 import { ClipboardIcon } from '@heroicons/react/24/outline'
+import { CheckIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 
 interface SharedNoteProps {
     content: Note['content'];
@@ -12,32 +14,42 @@ interface SharedNoteProps {
 const SharedNote: FC<SharedNoteProps> = ({ content }) => {
 
     const [counts] = useState<Counts>({ word: getWordCount(content), char: getCharCount(content) });
+    const [copied, setCopied] = useState(false);
 
     const copyToClipboard = async () => {
         await navigator.clipboard.writeText(content).then(() => {
-            alert('Copied to clipboard');
+            setCopied(true);
         });
     }
 
     return (
         <>
             <div className="flex justify-between items-center pb-4 border-b">
-                <h1 className="text-xl font-semibold text-blue-600">Clip Note </h1>
+                <Link href={window.location.origin}>
+                    <h1 className="text-xl font-semibold text-blue-600 cursor-pointer">Clip Note </h1>
+                </Link>
                 <div className="flex space-x-10">
-                    <button onClick={copyToClipboard} className="text-gray-500 hover:text-gray-800 text-2xl">
-                        <ClipboardIcon className='h-5' />
-                    </button>
+                    {
+                        copied ? <button className="text-green-600 text-2xl" disabled>
+                            <CheckIcon className='h-5 ' />
+                        </button> : <button onClick={copyToClipboard} className="text-gray-500 hover:text-gray-800 text-2xl">
+                            <ClipboardIcon className='h-5' />
+                        </button>
+                    }
                 </div>
             </div>
 
-            <div className="w-full h-96 py-4 rounded-md text-lg bg-white">
+            <div className="w-full h-[27rem] py-4 rounded-md text-lg bg-white note-content">
                 <textarea
                     id="comment"
                     name="comment"
-                    className="w-full h-full bg-transparent outline-none resize-none"
+                    className="block w-full bg-white text-black font-sans border-0 resize-none outline-none leading-5 text-[15px]"
                     placeholder=''
                     defaultValue={content}
                     readOnly
+                    style={{
+                        fontFamily: "font-family: Arial, Helvetica, sans-serif"
+                    }}
                 />
             </div>
 

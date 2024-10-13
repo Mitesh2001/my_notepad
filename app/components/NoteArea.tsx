@@ -49,14 +49,18 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                 </div>
             </div>
 
-            <div className="w-full h-96 py-4 rounded-md text-lg bg-white">
+            <div className="w-full h-[27rem] py-4 rounded-md text-lg bg-white note-content">
                 <textarea
                     id="comment"
                     name="comment"
-                    className="w-full h-full bg-transparent outline-none resize-none"
+                    className="block w-full bg-white text-black font-sans border-0 resize-none outline-none leading-5 text-[15px]"
                     placeholder=''
                     defaultValue={defaultContent}
                     onChange={debounce(changeContentHandler, 200)}
+                    style={{
+                        fontFamily: "font-family: Arial, Helvetica, sans-serif"
+                    }}
+                    autoFocus={defaultContent.length === 0}
                 />
             </div>
 
@@ -64,7 +68,9 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
                     <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link </button>
-                    <button className="text-blue-600" onClick={generateAndCopySharedLink}>Share Link</button>
+                    {
+                        counts.char > 0 && <button className="text-blue-600" onClick={generateAndCopySharedLink}>Share Link</button>
+                    }
                 </div>
             </div>
         </>
