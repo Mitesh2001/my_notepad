@@ -53,7 +53,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                 <textarea
                     id="comment"
                     name="comment"
-                    className="block w-full bg-white text-black font-sans border-0 resize-none outline-none leading-5 text-[15px]"
+                    className="block w-full h-full bg-white text-black font-sans border-0 resize-none outline-none leading-5 text-[15px]"
                     placeholder=''
                     defaultValue={defaultContent}
                     onChange={debounce(changeContentHandler, 200)}
