@@ -5,6 +5,8 @@ import { handleContentChange, addSharedLinkSlug } from '../lib/actions';
 import { Counts, Note } from '../lib/types';
 import { debounce, generateSlug, getCharCount, getWordCount } from '../lib/helper';
 import Link from 'next/link';
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import ChangeUrlModal from './ChangeUrlModal';
 
 interface NoteAreaProps {
     slug: string;
@@ -16,6 +18,7 @@ interface NoteAreaProps {
 const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" }) => {
 
     const [counts, setcounts] = useState<Counts>({ word: getWordCount(defaultContent), char: getCharCount(defaultContent) });
+    const [isEditUrlDialogVisible, setIsEditUrlDialogVisible] = useState<boolean>(false);
 
     const changeContentHandler: ChangeEventHandler<HTMLTextAreaElement> = async (event) => {
         setcounts({ word: getWordCount(event.target.value), char: getCharCount(event.target.value) })
@@ -42,10 +45,14 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
         <>
             <div className="flex justify-between items-center pb-4 border-b">
                 <h1 className="text-xl font-semibold text-blue-600">Clip Note</h1>
-                <div className="flex space-x-10">
-                    <Link href={newNoteSlug} className='text-gray-600 hover:text-gray-800 text-2xl'>
-                        +
+                <div className="flex space-x-5">
+                    <Link href={newNoteSlug}>
+                        <PlusIcon className='h-5 w-5 text-gray-600 hover:text-gray-800 text-2xl' />
                     </Link>
+                    <PencilIcon
+                        className='h-5 w-4 text-gray-500 hover:text-gray-800 text-2xl cursor-pointer'
+                        onClick={() => setIsEditUrlDialogVisible(true)}
+                    />
                 </div>
             </div>
 
@@ -73,6 +80,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                     }
                 </div>
             </div>
+            {isEditUrlDialogVisible && <ChangeUrlModal closeModal={() => setIsEditUrlDialogVisible(false)} slug={slug} />}
         </>
     )
 }

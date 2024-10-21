@@ -1,6 +1,7 @@
 'use server';
 
 import { Note, NoteModel } from "./types";
+import { redirect } from 'next/navigation';
 
 export const fetchNoteBySlug = async (slug: Note['slug']): Promise<Note | null> => {
     const note = await NoteModel.findOne({ slug }).lean();
@@ -40,4 +41,21 @@ export const addSharedLinkSlug = async (slug: Note['slug'], sharedSlug: Note['sh
 
 export const updateNoteById = async (noteId: Note['_id'], data: Partial<Note>) => {
     await NoteModel.updateOne({ _id: noteId }, { $set: { ...data } });
+}
+
+export const changeSlug = async (currentSlug: Note['slug'], newSlug: Note['slug']) => {
+
+    const note = await fetchNoteBySlug(currentSlug);
+    if (!note) {
+        redirect(`/${newSlug}`);
+    }
+
+    const noteWithNewSlug = await fetchNoteBySlug(newSlug);
+    if (noteWithNewSlug && note !== noteWithNewSlug) {
+        throw new Error("Invalid or taken URL");
+    }
+
+    await updateNoteById(note._id, { slug: newSlug }).then(() => {
+        redirect(`/${newSlug}`);
+    });
 }
