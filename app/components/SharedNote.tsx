@@ -39,7 +39,7 @@ const SharedNote: FC<SharedNoteProps> = ({ content }) => {
                 </div>
             </div>
 
-            <div className="w-full h-[27rem] py-4 rounded-md text-lg bg-white note-content">
+            <div className="w-full h-[calc(100vh-213px)] py-4 rounded-md text-lg bg-white note-content">
                 <textarea
                     id="comment"
                     name="comment"

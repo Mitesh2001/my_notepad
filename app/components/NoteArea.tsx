@@ -5,7 +5,9 @@ import { handleContentChange, addSharedLinkSlug } from '../lib/actions';
 import { Counts, Note } from '../lib/types';
 import { debounce, generateSlug, getCharCount, getWordCount } from '../lib/helper';
 import Link from 'next/link';
-import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import {
+    ArrowUturnRightIcon, PencilIcon, PlusIcon, LinkIcon
+} from '@heroicons/react/24/outline';
 import ChangeUrlModal from './ChangeUrlModal';
 
 interface NoteAreaProps {
@@ -27,7 +29,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
 
     const copyEditableLink = async () => {
         const editableLink = `${window.location.origin}/${slug}`;
-        navigator.clipboard.writeText(editableLink).then(() => {
+        await navigator.clipboard.writeText(editableLink).then(() => {
             alert("Editable link copied to clipboard!");
         });
     }
@@ -36,7 +38,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
         const generateSharedSlug = generateSlug();
         await addSharedLinkSlug(slug, generateSharedSlug);
         const sharedLink = `${window.location.origin}/share/${generateSharedSlug}`;
-        navigator.clipboard.writeText(sharedLink).then(() => {
+        await navigator.clipboard.writeText(sharedLink).then(() => {
             alert("Shared link copied to clipboard!");
         });
     }
@@ -74,8 +76,22 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
             <div className="mt-4 flex justify-between items-center">
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
-                    <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link </button>
-                    <button className="text-blue-600" onClick={generateAndCopySharedLink} disabled={counts.char === 0}>Share Link</button>
+                    <button
+                        type="button"
+                        className="inline-flex items-center gap-x-2 rounded-md px-2.5 py-1 text-sm text-blue-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
+                        onClick={copyEditableLink}
+                    >
+                        <LinkIcon aria-hidden="true" className="-ml-0.5 h-4 w-4" />
+                        Editable Link
+                    </button>
+                    <button
+                        type="button"
+                        className="inline-flex items-center gap-x-2 rounded-md px-2.5 py-1 text-sm text-blue-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
+                        onClick={generateAndCopySharedLink} disabled={counts.char === 0}
+                    >
+                        <ArrowUturnRightIcon aria-hidden="true" className="-ml-0.5 h-4 w-4" />
+                        Share Link
+                    </button>
                 </div>
             </div>
             {isEditUrlDialogVisible && <ChangeUrlModal closeModal={() => setIsEditUrlDialogVisible(false)} slug={slug} />}

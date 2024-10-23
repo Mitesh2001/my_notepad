@@ -25,7 +25,7 @@ const Page: NextPage<SlugPageProps> = async ({ params }) => {
     }
 
     return (
-        <div className="container p-6 bg-white rounded-lg shadow-lg">
+        <div className="container max-sm:mx-3 p-6 bg-white border rounded-sm border-[ #d9d9d9]">
             <SharedNote content={note.content} />
         </div>
     );
