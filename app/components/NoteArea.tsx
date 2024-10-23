@@ -75,9 +75,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
                     <button className="text-blue-600" onClick={copyEditableLink} type='button'>Editable Link </button>
-                    {
-                        counts.char > 0 && <button className="text-blue-600" onClick={generateAndCopySharedLink}>Share Link</button>
-                    }
+                    <button className="text-blue-600" onClick={generateAndCopySharedLink} disabled={counts.char === 0}>Share Link</button>
                 </div>
             </div>
             {isEditUrlDialogVisible && <ChangeUrlModal closeModal={() => setIsEditUrlDialogVisible(false)} slug={slug} />}
