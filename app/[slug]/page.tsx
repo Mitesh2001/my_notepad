@@ -24,7 +24,7 @@ const Page: NextPage<SlugPageProps> = async ({ params }) => {
     const newNoteSlug = generateSlug();
 
     return (
-        <div className="container p-6 bg-white rounded-lg shadow-lg">
+        <div className="container p-6 bg-white border rounded-sm border-[ #d9d9d9]">
             <NoteArea {...{ slug, newNoteSlug }} defaultContent={note?.content} />
         </div>
     );
