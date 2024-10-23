@@ -14,7 +14,7 @@ interface SharedNoteProps {
 const SharedNote: FC<SharedNoteProps> = ({ content }) => {
 
     const [counts] = useState<Counts>({ word: getWordCount(content), char: getCharCount(content) });
-    const [copied, setCopied] = useState(false);
+    const [copied, setCopied] = useState<boolean>(false);
 
     const copyToClipboard = async () => {
         await navigator.clipboard.writeText(content).then(() => {
