@@ -73,7 +73,7 @@ const NoteArea: FC<NoteAreaProps> = ({ slug, newNoteSlug, defaultContent = "" })
                 />
             </div>
 
-            <div className="mt-4 flex justify-between items-center">
+            <div className="mt-4 flex max-sm:flex-col max-sm:gap-2 justify-between items-center min-h-[28px]">
                 <span className="text-sm text-gray-500">Words: {counts.word} | Chars: {counts.char}</span>
                 <div className="flex space-x-2">
                     <button

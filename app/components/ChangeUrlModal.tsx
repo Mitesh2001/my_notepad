@@ -30,7 +30,7 @@ const ChangeUrlModal: FC<ChangeUrlModalProps> = ({ slug, closeModal }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-            <div className="bg-white px-6 py-4 rounded-lg shadow-lg w-96">
+            <div className="bg-white px-6 py-4 rounded-lg shadow-lg w-96 max-sm:mx-6">
                 <h2 className="font-semibold mb-4 text-center">Change URL</h2>
                 <div className="flex flex-col">
                     <div className="flex gap-3 mb-3">
